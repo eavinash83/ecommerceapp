@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SmartBuy Triage</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>SmartBuy triage</h1>
+    <span id="updated" class="muted"></span>
+  </header>
+  <main>
+    <section class="card report">
+      <div class="report-head">
+        <h2>Latest report</h2>
+        <select id="report-select" aria-label="Choose report"></select>
+      </div>
+      <div id="report-meta" class="muted"></div>
+      <div id="report-body" class="md"><p class="muted">No investigations yet.</p></div>
+    </section>
+
+    <section class="charts" id="charts"></section>
+
+    <section class="card">
+      <h2>Recent logs</h2>
+      <pre id="logs" class="logs">Loading…</pre>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>

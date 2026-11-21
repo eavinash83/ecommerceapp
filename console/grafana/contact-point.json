@@ -1,0 +1,13 @@
+{
+  "uid": "smartbuy-triage-webhook",
+  "name": "SmartBuy triage console",
+  "type": "webhook",
+  "settings": {
+    "url": "${CONSOLE_URL}/webhook",
+    "httpMethod": "POST",
+    "authorization_scheme": "Bearer",
+    "authorization_credentials": "${WEBHOOK_SECRET}",
+    "maxAlerts": 1
+  },
+  "disableResolveMessage": true
+}

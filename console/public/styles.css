@@ -1,0 +1,29 @@
+:root {
+  --bg: #f6f7f9; --card: #fff; --text: #1b1f24; --muted: #6a7380; --border: #dfe3e8;
+  --accent: #2563eb; --bad: #dc2626; --good: #16a34a; --warn: #d97706;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #0d1117; --card: #161b22; --text: #e6edf3; --muted: #8b949e; --border: #30363d; --accent: #58a6ff; --bad: #f85149; --good: #3fb950; --warn: #d29922; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 15px/1.5 system-ui, sans-serif; }
+header { display: flex; justify-content: space-between; align-items: baseline; padding: 16px; max-width: 1100px; margin: 0 auto; }
+h1 { margin: 0; font-size: 20px; }
+h2 { margin: 0 0 8px; font-size: 16px; }
+main { max-width: 1100px; margin: 0 auto; padding: 0 16px 32px; display: grid; gap: 16px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+.muted { color: var(--muted); font-size: 13px; }
+.report-head { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+select { background: var(--card); color: var(--text); border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; max-width: 60%; }
+.md h2 { margin-top: 18px; font-size: 15px; }
+.md p, .md ul { margin: 6px 0; }
+.md code { background: var(--bg); padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+.md pre { background: var(--bg); padding: 10px; border-radius: 6px; overflow-x: auto; }
+.badge { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 12px; border: 1px solid currentColor; }
+.badge.running { color: var(--warn); } .badge.done { color: var(--good); } .badge.failed { color: var(--bad); }
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.chart svg { width: 100%; height: 150px; display: block; }
+.legend { display: flex; gap: 12px; font-size: 12px; color: var(--muted); flex-wrap: wrap; }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; }
+.logs { margin: 0; max-height: 320px; overflow: auto; font: 12px/1.5 ui-monospace, monospace; white-space: pre-wrap; word-break: break-all; }
+.logs .err { color: var(--bad); }

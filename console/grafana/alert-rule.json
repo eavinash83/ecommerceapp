@@ -1,0 +1,47 @@
+{
+  "uid": "smartbuy-5xx-rate",
+  "title": "SmartBuy 5xx rate above 5%",
+  "folderUID": "smartbuy-incident",
+  "ruleGroup": "smartbuy-incident",
+  "orgID": 1,
+  "condition": "C",
+  "for": "1m",
+  "noDataState": "OK",
+  "execErrState": "OK",
+  "isPaused": false,
+  "labels": { "app": "smartbuy" },
+  "annotations": {
+    "summary": "More than 5% of shop requests returned 5xx for at least a minute."
+  },
+  "notification_settings": { "receiver": "SmartBuy triage console" },
+  "data": [
+    {
+      "refId": "A",
+      "relativeTimeRange": { "from": 300, "to": 0 },
+      "datasourceUid": "${PROM_DATASOURCE_UID}",
+      "model": {
+        "refId": "A",
+        "instant": true,
+        "expr": "sum(rate(http_server_requests_total{${SEL}http_status_code=~\"5..\"}[1m])) / sum(rate(http_server_requests_total{${SEL_ONLY}}[1m]))"
+      }
+    },
+    {
+      "refId": "B",
+      "relativeTimeRange": { "from": 300, "to": 0 },
+      "datasourceUid": "__expr__",
+      "model": { "refId": "B", "type": "reduce", "expression": "A", "reducer": "last", "datasource": { "type": "__expr__", "uid": "__expr__" } }
+    },
+    {
+      "refId": "C",
+      "relativeTimeRange": { "from": 300, "to": 0 },
+      "datasourceUid": "__expr__",
+      "model": {
+        "refId": "C",
+        "type": "threshold",
+        "expression": "B",
+        "datasource": { "type": "__expr__", "uid": "__expr__" },
+        "conditions": [{ "evaluator": { "type": "gt", "params": [0.05] } }]
+      }
+    }
+  ]
+}

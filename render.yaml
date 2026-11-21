@@ -38,3 +38,29 @@ services:
         sync: false
       - key: OTEL_EXPORTER_OTLP_HEADERS
         sync: false
+
+  # Incident triage console: receives Grafana's alert webhook, runs a headless
+  # Claude agent with read-only Grafana tools, and serves the triage page.
+  # Docker runtime because it needs the claude CLI and mcp-grafana binaries.
+  - type: web
+    name: smartbuy-incident-console
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./console/Dockerfile
+    dockerContext: .
+    healthCheckPath: /healthz
+    envVars:
+      - key: WEBHOOK_SECRET
+        sync: false
+      - key: CONSOLE_PASSWORD
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GRAFANA_URL
+        sync: false
+      - key: GRAFANA_SERVICE_ACCOUNT_TOKEN
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: LOKI_SELECTOR
+        value: '{service_name="checkout-service"}'

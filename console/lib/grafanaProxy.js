@@ -18,8 +18,11 @@ async function gfetch(path) {
 async function datasourceUid(type) {
   if (uids[type]) return uids[type]
   const list = await gfetch('/api/datasources')
-  // Grafana Cloud names its defaults like "grafanacloud-<stack>-prom" / "-logs".
-  const match = list.find((d) => d.type === type && (d.isDefault || /grafanacloud/.test(d.name))) || list.find((d) => d.type === type)
+  // Grafana Cloud names its sources "grafanacloud-<stack>-prom" and "-logs", but also
+  // ships "-alert-state-history" and "-usage-insights" Loki sources we must not pick.
+  const suffix = type === 'loki' ? /-logs$/ : /-prom$/
+  const ofType = list.filter((d) => d.type === type)
+  const match = ofType.find((d) => suffix.test(d.name)) || ofType.find((d) => d.isDefault) || ofType[0]
   if (!match) throw new Error(`No ${type} data source found; set ${type === 'loki' ? 'LOKI' : 'PROM'}_DATASOURCE_UID`)
   uids[type] = match.uid
   return match.uid

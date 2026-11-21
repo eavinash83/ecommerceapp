@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: ecommerce-smartbuy-app-2
+    runtime: node
+    plan: free
+    buildCommand: npm install --include=dev && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: BETTER_AUTH_SECRET
+        sync: false
+      - key: BETTER_AUTH_URL
+        sync: false
+      # Incident exercise settings (see incident-demo/README.md)
+      - key: OTEL_SERVICE_NAME
+        value: checkout-service
+      - key: DB_POOL_MAX
+        value: "5"
+      - key: DB_CONNECT_TIMEOUT_MS
+        value: "5000"
+      - key: EXPRESS_PAY_ENABLED
+        value: "true"
+      - key: OTEL_METRIC_EXPORT_INTERVAL
+        value: "10000"
+      # Observability — ships traces/metrics/logs to Grafana Cloud's free
+      # tier. See README.md's "Observability" section. OTEL_ENABLED=true
+      # here is safe/inert until the two sync:false values below are set;
+      # code-side this is a pure env-var change (no deploy-blocking code
+      # depends on these being present).
+      - key: OTEL_ENABLED
+        value: true
+      - key: OTEL_RESOURCE_ATTRIBUTES
+        value: deployment.environment=production
+      - key: OTEL_EXPORTER_OTLP_ENDPOINT
+        sync: false
+      - key: OTEL_EXPORTER_OTLP_HEADERS
+        sync: false
